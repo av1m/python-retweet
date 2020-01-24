@@ -1,0 +1,6 @@
+log/
+.idea/
+crontab.log
+/configuration/credentials_test.py
+try.py
+update_list.py
