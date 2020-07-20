@@ -1,6 +1,8 @@
 # Python reweet bot (rtbot)
 
 [![DeepSource](https://static.deepsource.io/deepsource-badge-light-mini.svg)](https://deepsource.io/gh/av1m/python-retweet/?ref=repository-badge)
+[![CodeInspector Score](https://www.code-inspector.com/project/5622/score/svg)](https://frontend.code-inspector.com/public/project/5622/python-retweet/dashboard)
+[![CodeInspector Status](https://www.code-inspector.com/project/5622/status/svg)](https://frontend.code-inspector.com/public/project/5622/python-retweet/dashboard)
 
 Establishes an API connection to Twitter using Tweepy and retweet tweets based on criteria
 
