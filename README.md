@@ -7,8 +7,7 @@ Establishes an API connection to Twitter using Tweepy and retweet tweets based o
 First, installation of dependencies
 
 ```bash
-pipenv install
-pipenv sync
+python3 -m pip install -r requirements.txt
 ```
 
 Second, configuration of configuration file, edit `credentials.py`
@@ -24,7 +23,11 @@ The best is to use a crontab
 
 We can directly launch it from a terminal (`python3 retweet.py`)
 
-Note that it is possible to use the `Logger` class to retrieve the results by mail/sms/file  
+Note that it is possible to use the [`Logger`](include/logger.py) class to retrieve the results by mail/sms/file  
+
+## TODO
+
+See the [Projects section](https://github.com/av1m/python-retweet/projects) on Github
 
 ## Author
 

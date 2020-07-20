@@ -23,7 +23,8 @@ class Logger(object):
 
     def file(self, json_nodump):
         if not self.log_location:
-            raise Exception("You have not configured the settings to save LOG in a file")
+            raise Exception(
+                "You have not configured the settings to save LOG in a file")
         if not os.path.isdir(self.log_location):
             os.mkdir(self.log_location)
         filename = '{}/log_{}'.format(self.log_location, self.date) + '.json'
@@ -32,7 +33,8 @@ class Logger(object):
 
     def sms(self, data):
         if not self.free_credentials:
-            raise Exception("You have not configured the settings to send an SMS")
+            raise Exception(
+                "You have not configured the settings to send an SMS")
         if data != '':
             url = "https://smsapi.free-mobile.fr/sendmsg?user={0}&pass={1}&msg={2}".format(
                 self.free_credentials['user'],
@@ -45,7 +47,8 @@ class Logger(object):
 
     def mail(self, json_nodump):
         if not self.sendmail_location:
-            raise Exception("You have not configured the settings to send a mail")
+            raise Exception(
+                "You have not configured the settings to send a mail")
         p = os.popen("%s -t" % self.sendmail_location, "w")
         p.write("From: %s\n" % MAIL_FROM)
         p.write("To: %s\n" % MAIL_TO)
