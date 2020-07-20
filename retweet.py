@@ -32,13 +32,14 @@ def is_good_tweet(status):
     """
     # We convert Status to JSON to better process the information
     entities = {"hashtags": len(status._json['entities']['hashtags']),
-                'user_mentions': len(status._json['entities']['user_mentions']),
+                'user_mentions': len(
+                    status._json['entities']['user_mentions']),
                 'urls': len(status._json['entities']['urls'])}
     # Critetions
     bool_entities = sum(entities.values()) <= 8 and entities['hashtags'] <= 5
     bool_lang = status._json['lang'].lower() in ['fr', 'en']
-    bool_sensitive = False if 'possibly_sensitive' in status._json and bool(
-        status._json['possibly_sensitive']) else True
+    bool_sensitive = not bool('possibly_sensitive' in status._json and bool(
+        status._json['possibly_sensitive']))
     return bool_entities and bool_lang and bool_sensitive
 
 

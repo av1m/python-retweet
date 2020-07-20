@@ -14,7 +14,7 @@ except ImportError:
     from configuration.credentials import Configuration
 
 
-class Logger(object):
+class Logger:
     def __init__(self):
         self.conf = Configuration()
         self.date = datetime.today().strftime('%Y-%m-%d-%H-%M-%S')

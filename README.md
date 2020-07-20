@@ -1,5 +1,7 @@
 # Python reweet bot (rtbot)
 
+[![DeepSource](https://static.deepsource.io/deepsource-badge-light-mini.svg)](https://deepsource.io/gh/av1m/python-retweet/?ref=repository-badge)
+
 Establishes an API connection to Twitter using Tweepy and retweet tweets based on criteria
 
 ## Installation

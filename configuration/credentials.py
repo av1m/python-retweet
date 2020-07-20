@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 class Configuration(object):
     def __init__(self):
         self.CONSUMER_KEY = None
