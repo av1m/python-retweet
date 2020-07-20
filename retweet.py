@@ -6,59 +6,66 @@ from time import sleep
 
 import tweepy
 
-from include.logger import Logger
+from configuration.logger import Logger
 
 try:
-    from configuration.credentials_test import *  # for testing
+    from configuration.credentials_test import Configuration  # for testing
 except ImportError:
-    from configuration.credentials import *
-
-authentification = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-authentification.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-api = tweepy.API(authentification)
-
-# https://developer.twitter.com/en/docs/basics/rate-limiting
-# http://docs.tweepy.org/en/v3.5.0/api.html
-
-# https://developer.twitter.com/en/docs/tweets/search/guides/standard-operators
-# https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets
+    from configuration.credentials import Configuration
 
 
-def is_good_tweet(tweet):
-    """Used to indicate whether the tweet should be retweeted (according to our criteria)
-    Here, a tweet is acceptable if:
-    - The sum of these hashtags, mentions and URLS is less than or equal to 8, AND
+def is_good_tweet(status):
+    """Used to indicate whether the tweet should be retweeted
+    Here, a tweet is acceptable if: (according to our criteria)
+    - The sum of these hashtags, mentions and URLS is less than or equal to 8
     - The number of hashtags does not exceed 5
     - The language is French or English
-    - If the information on the sensitive of the tweet is available, it must be False
+    - If the information on the sensitive of the tweet is available,
+      it must be False
 
     Args:
-        tweet ([tweepy.Status]): The tweet to analyze (i.e. on which we evaluate our criteria)
+        status ([tweepy.Status]): The tweet to analyze
+            (i.e. on which we evaluate our criteria)
 
     Returns:
         [bool]: True if the tweet should be retweeted, False otherwise
     """
-    tweet = tweet._json  # We convert Status to JSON to better process the information
-    entities = {"hashtags": len(tweet['entities']['hashtags']),
-                'user_mentions': len(tweet['entities']['user_mentions']),
-                'urls': len(tweet['entities']['urls'])}
-    return (sum(entities.values()) <= 8 and entities['hashtags'] <= 5) and (tweet['lang'].lower() in ['fr', 'en']) and (False if 'possibly_sensitive' in tweet and bool(tweet['possibly_sensitive']) else True)
+    # We convert Status to JSON to better process the information
+    entities = {"hashtags": len(status._json['entities']['hashtags']),
+                'user_mentions': len(status._json['entities']['user_mentions']),
+                'urls': len(status._json['entities']['urls'])}
+    # Critetions
+    bool_entities = sum(entities.values()) <= 8 and entities['hashtags'] <= 5
+    bool_lang = status._json['lang'].lower() in ['fr', 'en']
+    bool_sensitive = False if 'possibly_sensitive' in status._json and bool(
+        status._json['possibly_sensitive']) else True
+    return bool_entities and bool_lang and bool_sensitive
 
 
 if __name__ == '__main__':
+    # API connection
+    conf = Configuration()
+    authentification = tweepy.OAuthHandler(
+        conf.CONSUMER_KEY, conf.CONSUMER_SECRET)
+    authentification.set_access_token(
+        conf.ACCESS_TOKEN, conf.ACCESS_TOKEN_SECRET)
+    api = tweepy.API(authentification)
     log = {}  # Used for logs, sending by mail, sms ...
-    TIME_SLEEP, TOTAL_RT, MAX_RECOVERED = 10, 10, 50
+    TIME_SLEEP, TOTAL_RT, MAX_RECOVERED = 10, 3, 50
     recovered, send = 0, 1
     while True:
         # Randomly selected a request contained in the `SEARCH` variable
-        random_query = '(' + SEARCH[randint(0, len(SEARCH) - 1)
-                                    ] + ') lang:en OR lang:fr filter:safe'
+        random_query = '(' + conf.SEARCH[randint(0, len(conf.SEARCH) - 1)
+                                         ] + ') lang:en OR lang:fr filter:safe'
         print(random_query)
-        for tweet in tweepy.Cursor(api.search, q="node", result_type="recent").items(TOTAL_RT):
+        for tweet in tweepy.Cursor(
+                api.search, q=random_query,
+                result_type="recent").items(TOTAL_RT):
             recovered += 1
             if recovered > MAX_RECOVERED:
                 print("Too much research !!")
-                log['error'] = {"error": True, "message": "Too much research !!"}
+                log['error'] = {"error": True,
+                                "message": "Too much research !!"}
                 send = MAX_RECOVERED
                 break
             if not is_good_tweet(tweet):
@@ -80,7 +87,7 @@ if __name__ == '__main__':
             except StopIteration:
                 break
         # We do a check if we ever get too many tweets
-        if send > TOTAL_RT:
+        if send >= TOTAL_RT:
             break
 
     # Create and send LOG

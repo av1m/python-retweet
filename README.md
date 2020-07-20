@@ -40,3 +40,10 @@ See the [Projects section](https://github.com/av1m/python-retweet/projects) on G
 ## License
 
 * [MIT](https://github.com/av1m/python-retweet/blob/master/LICENSE)
+
+### Useful links
+
+- https://developer.twitter.com/en/docs/basics/rate-limiting
+- http://docs.tweepy.org/en/v3.5.0/api.html
+- https://developer.twitter.com/en/docs/tweets/search/guides/standard-operators
+- https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets

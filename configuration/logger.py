@@ -9,17 +9,19 @@ from json import dumps
 from requests import post
 
 try:
-    from configuration.credentials_test import *  # for testing
+    from configuration.credentials_test import Configuration  # for testing
 except ImportError:
-    from configuration.credentials import *
+    from configuration.credentials import Configuration
 
 
 class Logger(object):
     def __init__(self):
+        self.conf = Configuration()
         self.date = datetime.today().strftime('%Y-%m-%d-%H-%M-%S')
-        self.sendmail_location = MAIL_LOCATION
-        self.log_location = LOG_LOCATION
-        self.free_credentials = {'user': FREE_USER, 'pass': FREE_PASSWORD}
+        self.sendmail_location = self.conf.MAIL_LOCATION
+        self.log_location = self.conf.LOG_LOCATION
+        self.free_credentials = {
+            'user': self.conf.FREE_USER, 'pass': self.conf.FREE_PASSWORD}
 
     def file(self, json_nodump):
         if not self.log_location:
@@ -36,7 +38,8 @@ class Logger(object):
             raise Exception(
                 "You have not configured the settings to send an SMS")
         if data != '':
-            url = "https://smsapi.free-mobile.fr/sendmsg?user={0}&pass={1}&msg={2}".format(
+            url = "https://smsapi.free-mobile.fr/sendmsg?"
+            url += "user={}&pass={}&msg={}".format(
                 self.free_credentials['user'],
                 self.free_credentials['pass'],
                 urllib.parse.quote(str(data))
@@ -50,8 +53,8 @@ class Logger(object):
             raise Exception(
                 "You have not configured the settings to send a mail")
         p = os.popen("%s -t" % self.sendmail_location, "w")
-        p.write("From: %s\n" % MAIL_FROM)
-        p.write("To: %s\n" % MAIL_TO)
+        p.write("From: %s\n" % self.conf.MAIL_FROM)
+        p.write("To: %s\n" % self.conf.MAIL_TO)
         p.write("Subject: AUTO RETWEET {}\n".format(str(self.date)))
         p.write("\n")  # blank line separating headers from body
         p.write(dumps(json_nodump, indent=4))
