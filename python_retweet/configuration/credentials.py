@@ -1,8 +1,7 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 
-class Configuration(object):
+class Configuration:
     def __init__(self):
         self.CONSUMER_KEY = None
         self.CONSUMER_SECRET = None
@@ -10,8 +9,8 @@ class Configuration(object):
         self.ACCESS_TOKEN_SECRET = None
         self.SEARCH = [
             "@github",
-            "list:avimimoun/n3W5d3V",   # personnal list
-            "list:avimimoun/Followers1"  # personnal list
+            "list:avimimoun/n3W5d3V",  # personnal list
+            "list:avimimoun/Followers1",  # personnal list
         ]
         self.FREE_USER = None  # optional
         self.FREE_PASSWORD = None  # optional
