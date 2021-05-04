@@ -10,24 +10,27 @@ Establishes an API connection to Twitter using Tweepy and retweet tweets based o
 
 First, installation of dependencies
 
-```bash
-python3 -m pip install -r requirements.txt
+``` bash
+make install
 ```
 
-Second, configuration of configuration file, edit `credentials.py`
+Second, configuration of configuration file, edit [`credentials.py`](./python_retweet/configuration/credentials.py)
 
-`vim configuration/credentatials.py `
+``` bash
+vim python_retweet/configuration/credentatials.py
+```
 
 ## Usage
 
 The best is to use a crontab
-```bash
-0 */2 * * * python3 /home/av1m/rtbot/retweet.py > /dev/null 2>&1
+
+``` bash
+0 */2 * * * python3 github/python-retweet/python_retweet/ > /dev/null 2>&1
 ```
 
-We can directly launch it from a terminal (`python3 retweet.py`)
+We can directly launch it from a terminal ( `python3 python_retweet/__main__.py` )
 
-Note that it is possible to use the [`Logger`](include/logger.py) class to retrieve the results by mail/sms/file  
+Note that it is possible to use the [`Logger`](./python_retweet/configuration/logger.py) class to retrieve the results by mail/sms/file  
 
 ## TODO
 
@@ -47,7 +50,7 @@ See the [Projects section](https://github.com/av1m/python-retweet/projects) on G
 
 ### Useful links
 
-- https://developer.twitter.com/en/docs/basics/rate-limiting
-- http://docs.tweepy.org/en/v3.5.0/api.html
-- https://developer.twitter.com/en/docs/tweets/search/guides/standard-operators
-- https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets
+* [Twitter rate limit](https://developer.twitter.com/en/docs/basics/rate-limiting)
+* [Tweepy documentation](http://docs.tweepy.org/en/v3.5.0/api.html)
+* [Twitter - standard operators](https://developer.twitter.com/en/docs/tweets/search/guides/standard-operators)
+* [Twitter - search tweets](https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets)
