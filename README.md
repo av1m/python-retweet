@@ -20,6 +20,12 @@ Second, configuration of configuration file, edit [`credentials.py`](./python_re
 vim python_retweet/configuration/credentatials.py
 ```
 
+Finally, run the script 🎉
+
+``` bash
+make run
+```
+
 ## Usage
 
 The best is to use a crontab
